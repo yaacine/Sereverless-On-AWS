@@ -14,7 +14,7 @@ provider:
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}
     ATTACHEMENTS_TABLE: Attachement-${self:provider.stage}
-    TODOS_ID_INDEX: AttachementIdIndex
+    TODOS_ID_INDEX: AttachementIdIndex-${self:provider.stage}
     CONNECTIONS_TABLE: Connections-${self:provider.stage}
     TODOS_S3_BUCKET: serverless-todos-attachement-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
@@ -144,13 +144,12 @@ resources:
           - AttributeName: createdAt
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-
-        # TableName: ${self:provider.environment.TODOS_TABLE}
-        # GlobalSecondaryIndexes:
-        #   - IndexName: ${self:provider.environment.TODOS_ID_INDEX}
-        #     KeySchema:
-        #     - AttributeName: todoId
-        #       KeyType: HASH
-        #     Projection:
-        #       ProjectionType: ALL
+        TableName: ${self:provider.environment.TODOS_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.TODOS_ID_INDEX}
+            KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
     # TODO: Add any necessary AWS resources
