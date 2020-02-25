@@ -130,6 +130,8 @@ resources:
             AttributeType: S
           - AttributeName: createdAt
             AttributeType: S
+          - AttributeName: dueDate
+            AttributeType: S
           - AttributeName: done
             AttributeType: B
           - AttributeName: attachmentUrl
