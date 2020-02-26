@@ -77,6 +77,14 @@ functions:
           method: post
           path: todos
           authorizer: Auth
+          cors: true
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: create a todo item
+            description: create a todo item
+            requestModels:
+              'application/json': TodoCreatoinRequest
+
           
 
   # TODO: Configure this function
@@ -87,6 +95,14 @@ functions:
           method: patch
           path: todos/{todoId}
           authorizer: Auth
+          cors: true
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: update a todo item
+            description: update a todo item
+            requestModels:
+              'application/json': TodoUpdateRequest
+
 
 
   # TODO: Configure this function
@@ -97,6 +113,8 @@ functions:
           method: delete
           path: todos/{todoId}
           authorizer: Auth
+          cors: true
+
 
 
   # TODO: Configure this function
@@ -107,10 +125,34 @@ functions:
           method: post
           path: todos/{todoId}/attachment
           authorizer: Auth
+          cors: true
+
+custom:
+  documentation:
+    api:
+      info:
+        version: v1.0.0
+        title: TODO API
+        description: Serverless application for TODO  saving
+    models:
+      - name: TodoCreatoinRequest
+        contentType: application/json
+        schema: ${file(models/create-todo-request.json)}
+      - name: TodoUpdateRequest
+        contentType: application/json
+        schema: ${file(models/update-todo-request.json)}
 
 
 resources:
   Resources:
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false
     GatewayResponseDefault4XX:
       Type: AWS::ApiGateway::GatewayResponse
       Properties:

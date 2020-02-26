@@ -19,6 +19,7 @@ const urlExpiration = process.env.SIGNED_URL_EXPIRATION
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   //const newTodo: CreateTodoRequest = JSON.parse(event.body)
+//   const authData =  event.headers.Authorization
 
   const newtodoId = uuid.v4()
   const newItem = await createTodo( newtodoId, event)
@@ -67,3 +68,5 @@ function getUploadUrl(todoId: string) {
     Expires: urlExpiration
   })
 }
+
+
