@@ -20,6 +20,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
   return {
     statusCode: 201,
+     headers: {
+      "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+    },
     body: JSON.stringify({
       uploadUrl: url
     })
