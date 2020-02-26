@@ -1,3 +1,5 @@
+org: gyzidelmal
+app: todo-paapp
 service:
   name: serverless-todo-app
 
@@ -39,11 +41,17 @@ provider:
       Action:
         - dynamodb:Query
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_ID_INDEX}
+    # - Effect: Allow
+    #   Action:
+    #     - s3:PutObject
+    #     - s3:GetObject
+    #   Resource: "*"
     - Effect: Allow
       Action:
         - s3:PutObject
         - s3:GetObject
       Resource: arn:aws:s3:::${self:provider.environment.TODOS_S3_BUCKET}/*
+   
    
     # - Effect: Allow
     #   Action:
@@ -76,7 +84,7 @@ functions:
       - http:
           method: post
           path: todos
-          authorizer: Auth
+          #authorizer: Auth
           
 
   # TODO: Configure this function
