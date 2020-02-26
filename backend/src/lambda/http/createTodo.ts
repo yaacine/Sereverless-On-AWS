@@ -22,6 +22,7 @@ const bucketName = process.env.TODOS_S3_BUCKET
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   //const newTodo: CreateTodoRequest = JSON.parse(event.body)
+//   const authData =  event.headers.Authorization
 
   const newtodoId = uuid.v4()
   const newItem = await createTodo( newtodoId, event)
@@ -64,11 +65,12 @@ async function createTodo(newtodoId: string, event: any) {
 }
 
 
+function getUploadUrl(todoId: string) {
+  return s3.getSignedUrl('putObject', {
+    Bucket: bucketName,
+    Key: todoId,
+    Expires: urlExpiration
+  })
+}
 
-// function getUploadUrl(todoId: string) {
-//   return s3.getSignedUrl('putObject', {
-//     Bucket: bucketName,
-//     Key: todoId,
-//     Expires: urlExpiration
-//   })
-// }
+
